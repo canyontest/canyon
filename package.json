@@ -4,7 +4,6 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "rm": "find ./ -type d \\( -name \"dist\" -o -name \"node_modules\" \\) -exec rm -rf {} +",
     "format": "pnpm biome check --write --unsafe ./packages/canyon-platform/src ./packages/canyon-backend/src"
   },
