@@ -6,7 +6,7 @@
   "scripts": {
     "build": "nest build",
     "start": "nest start",
-    "start:dev": "nest start --watch",
+    "do-dev": "nest start --watch",
     "preinstall": "prisma generate && nest build",
     "migrate": "prisma migrate dev"
   },
