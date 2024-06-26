@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "type": "module",
   "scripts": {
+    "preinstall": "node ./scripts/check.js",
     "rm": "find ./ -type d \\( -name \"dist\" -o -name \"node_modules\" \\) -exec rm -rf {} +",
     "format": "pnpm biome check --write --unsafe ./packages/canyon-platform/src ./packages/canyon-backend/src"
   },
