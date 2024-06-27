@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "build": "pnpm -r do-build",
     "preinstall": "node ./scripts/check.js",
     "rm": "find ./ -type d \\( -name \"dist\" -o -name \"node_modules\" \\) -exec rm -rf {} +",
     "format": "pnpm biome check --write --unsafe ./packages/canyon-platform/src ./packages/canyon-backend/src",
