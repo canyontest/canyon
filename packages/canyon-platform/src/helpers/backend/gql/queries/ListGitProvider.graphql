@@ -1,0 +1,10 @@
+query ListGitProvider {
+  listGitProvider {
+    id
+    name
+    type
+    url
+    createdAt
+    updatedAt
+  }
+}

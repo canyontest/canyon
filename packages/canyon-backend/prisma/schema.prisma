@@ -35,13 +35,15 @@ model Git {
 }
 
 model GitProvider {
-  id           String  @id
+  id           String   @id
   url          String
   clientID     String
   clientSecret String
   type         String
   name         String
   disabled     Boolean
+  createdAt    DateTime @default(now()) @map("created_at") @db.Timestamp(3)
+  updatedAt    DateTime @default(now()) @map("updated_at") @db.Timestamp(3)
 }
 
 model Coverage {

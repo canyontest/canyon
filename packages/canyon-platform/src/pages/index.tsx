@@ -1,93 +1,113 @@
 import {
-	MenuFoldOutlined,
-	MenuUnfoldOutlined,
-	UploadOutlined,
-	UserOutlined,
-	VideoCameraOutlined,
+	ArrowRightOutlined,
+	CreditCardOutlined,
+	FolderOutlined,
+	LineChartOutlined,
+	LogoutOutlined,
+	SettingOutlined,
 } from "@ant-design/icons";
-import React, { useState } from "react";
-// import {Outlet} from "react-router-dom";
-// import { Button, Layout, Menu, theme } from 'antd';
 
-const { Header, Sider, Content } = Layout;
+import { CanyonLayoutBase } from "canyon-ui-old";
+import { useTranslation } from "react-i18next";
 
-const App: React.FC = () => {
-	const onChange = (checked: boolean) => {
-		console.log(`switch to ${checked}`);
-		if (checked) {
-			document.documentElement.classList.add("dark");
-			document.body.style.backgroundColor = "black";
-		} else {
-			document.documentElement.classList.remove("dark");
-			document.body.style.backgroundColor = "white";
+function Index() {
+	const { t } = useTranslation();
+	useEffect(() => {
+		if (localStorage.getItem("token") === null) {
+			localStorage.clear();
+			localStorage.setItem("callback", window.location.href);
+			nav("/login");
 		}
+	}, []);
+
+	const loc = useLocation();
+	const nav = useNavigate();
+
+	useEffect(() => {
+		if (loc.pathname === "/") {
+			nav("/projects");
+		}
+	}, [loc.pathname]);
+
+	useEffect(() => {
+		setMenuSelectedKey(loc.pathname.replace("/", ""));
+	}, [loc.pathname]);
+	const meData = {
+		me: {
+			username: "tzhangm123",
+		},
 	};
-	const [collapsed, setCollapsed] = useState(false);
-	const {
-		token: { colorBgContainer, borderRadiusLG },
-	} = theme.useToken();
-
+	const [menuSelectedKey, setMenuSelectedKey] = useState<string>("projects");
 	return (
-		<Layout>
-			<Sider trigger={null} collapsible collapsed={collapsed}>
-				<div className="demo-logo-vertical" />
-				<Menu
-					theme="dark"
-					mode="inline"
-					defaultSelectedKeys={["1"]}
-					items={[
-						{
-							key: "1",
-							icon: <UserOutlined />,
-							label: "nav 1",
-						},
-						{
-							key: "2",
-							icon: <VideoCameraOutlined />,
-							label: "nav 2",
-						},
-						{
-							key: "3",
-							icon: <UploadOutlined />,
-							label: "nav 3",
-						},
-					]}
-				/>
-			</Sider>
-			<Layout>
-				<Header
-					style={{ padding: 0, background: colorBgContainer }}
-					className={"flex"}
-				>
-					<Button
-						type="text"
-						icon={collapsed ? <MenuUnfoldOutlined /> : <MenuFoldOutlined />}
-						onClick={() => setCollapsed(!collapsed)}
-						style={{
-							fontSize: "16px",
-							width: 64,
-							height: 64,
-						}}
-					/>
-
+		<>
+			<CanyonLayoutBase
+				breadcrumb={
 					<div>
-						<Switch defaultChecked onChange={onChange} />
+						{/*榜单mark*/}
+						{/*<Breadcrumb className={'py-3'} items={genBreadcrumbItems(loc.pathname)} />*/}
 					</div>
-				</Header>
-				<Content
-					style={{
-						margin: "24px 16px",
-						padding: 24,
-						minHeight: "calc(100vh - 120px)",
-						background: colorBgContainer,
-						borderRadius: borderRadiusLG,
-					}}
-				>
-					<Outlet />
-				</Content>
-			</Layout>
-		</Layout>
+				}
+				itemsDropdown={[
+					{
+						label: (
+							<div className={"text-red-500"}>
+								<LogoutOutlined className={"mr-2"} />
+								Logout
+							</div>
+						),
+						onClick: () => {
+							localStorage.clear();
+							window.location.href = "/login";
+						},
+					},
+				]}
+				MeData={{
+					me: {
+						username: "tzhangm123",
+					},
+				}}
+				onClickGlobalSearch={() => {}}
+				title={"Canyon"}
+				logo={
+					<div>{/*<img src='/logo.svg' alt='' className={'w-[28px]'} />*/}</div>
+				}
+				mainTitleRightNode={
+					<div>
+						<Tooltip
+							title={
+								<div>
+									<span>{t("menus.docs")}</span>
+									<ArrowRightOutlined />
+								</div>
+							}
+						>
+							hi
+						</Tooltip>
+					</div>
+				}
+				menuSelectedKey={menuSelectedKey}
+				onSelectMenu={(selectInfo) => {
+					setMenuSelectedKey(selectInfo.key);
+					nav(`/${selectInfo.key}`);
+				}}
+				menuItems={[
+					{
+						label: t("menus.projects"),
+						key: "projects",
+						icon: <FolderOutlined />,
+					},
+					{
+						label: t("menus.settings"),
+						key: "settings",
+						icon: <SettingOutlined />,
+					},
+				]}
+				renderMainContent={<Outlet />}
+				search={false}
+				account={false}
+			/>
+		</>
 	);
-};
+}
 
-export default App;
+export default Index;

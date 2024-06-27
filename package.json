@@ -8,12 +8,17 @@
     "preinstall": "node ./scripts/check.js",
     "rm": "find ./ -type d \\( -name \"dist\" -o -name \"node_modules\" \\) -exec rm -rf {} +",
     "format": "pnpm biome check --write --unsafe ./packages/canyon-platform/src ./packages/canyon-backend/src",
-    "dev": "pnpm -r do-dev"
+    "dev": "pnpm -r do-dev",
+    "migrate": "npx prisma migrate dev --schema ./packages/canyon-backend/prisma/schema.prisma"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "@biomejs/biome": "1.8.2"
+    "@biomejs/biome": "1.8.2",
+    "@commitlint/cli": "^19.2.1",
+    "@commitlint/config-conventional": "^19.1.0",
+    "husky": "^9.0.11",
+    "prisma": "^5.16.0"
   }
 }
