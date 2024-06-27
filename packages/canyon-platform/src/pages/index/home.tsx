@@ -1,5 +1,3 @@
-import { Table } from "antd";
-
 const Home = () => {
 	return (
 		<div>
