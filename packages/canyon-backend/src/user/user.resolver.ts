@@ -5,16 +5,16 @@ import { User } from "./user.model";
 // import { GqlUser } from '../decorators/gql-user.decorator';
 // import { GqlAuthGuard } from '../guards/gql-auth.guard';
 import { ListUserService } from "./crud/list-user.service";
+import { GitProvider } from "./models/git-provider.model";
+import { ListGitProviderService } from "./services/list-git-provider.service";
 import { UserService } from "./user.service";
-import {GitProvider} from "./models/git-provider.model";
-import {ListGitProviderService} from "./services/list-git-provider.service";
 
 @Resolver(() => User)
 export class UserResolver {
 	constructor(
 		private readonly userService: UserService,
 		private readonly listUserService: ListUserService,
-    private readonly listGitProviderService: ListGitProviderService,
+		private readonly listGitProviderService: ListGitProviderService,
 	) {}
 
 	// @Query(() => User, {
@@ -33,12 +33,12 @@ export class UserResolver {
 		return this.listUserService.invoke();
 	}
 
-  @Query(() => [GitProvider], {
-    description: "列出所有提供商",
-  })
-  listGitProvider() {
-    return this.listGitProviderService.invoke();
-  }
+	@Query(() => [GitProvider], {
+		description: "列出所有提供商",
+	})
+	listGitProvider() {
+		return this.listGitProviderService.invoke();
+	}
 
 	// @Mutation(() => User, {
 	//   description: '关注项目',

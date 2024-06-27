@@ -4,7 +4,8 @@
 	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
-		"dev": "vite",
+    "dev-platform": "vite",
+    "do-build": "node --max_old_space_size=16384 ./node_modules/vite/bin/vite.js build",
 		"build": "tsc -b && vite build",
 		"postinstall": "npm run codegen",
 		"codegen": "graphql-codegen --config codegen.ts"

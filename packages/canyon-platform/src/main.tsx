@@ -5,10 +5,15 @@ import ReactDOM from "react-dom/client";
 import App from "./App.tsx";
 import "./index.css";
 import "antd/dist/reset.css";
+import {
+	ApolloClient,
+	ApolloProvider,
+	InMemoryCache,
+	createHttpLink,
+} from "@apollo/client";
+import { onError } from "@apollo/client/link/error";
 import { BrowserRouter } from "react-router-dom";
 import { GlobalProvider } from "./components/GlobalContext.tsx";
-import {ApolloClient, ApolloProvider, createHttpLink, InMemoryCache} from "@apollo/client";
-import {onError} from "@apollo/client/link/error";
 
 // TODO:系统响应主题
 // 多语言响应系统
@@ -20,51 +25,49 @@ import {onError} from "@apollo/client/link/error";
 
 // 创建一个error link来处理错误
 const errorLink = onError(({ graphQLErrors, networkError }) => {
-  if (graphQLErrors) {
-    graphQLErrors.forEach(({ message: msg, locations, path }) => {
-      console.error(`[GraphQL error]: msg: ${msg}, Location: ${locations}, Path: ${path}`);
-      message.error(`[GraphQL error]: msg: ${msg}, Path: ${path}`);
-      if (
-        msg === 'Unauthorized' &&
-        window.location.pathname !== '/oauth' &&
-        window.location.pathname !== '/login'
-      ) {
-        localStorage.clear();
-        window.location.href = '/login';
-      }
-      // 在这里你可以执行自定义的操作，比如显示错误提示
-    });
-  }
-  if (networkError) {
-    console.error(`[Network error]: ${networkError}`);
-    // 在这里你可以执行自定义的操作，比如显示网络错误提示
-  }
+	if (graphQLErrors) {
+		const { message: msg, locations, path } = graphQLErrors[0];
+		console.error(
+			`[GraphQL error]: msg: ${msg}, Location: ${locations}, Path: ${path}`,
+		);
+		message.error(`[GraphQL error]: msg: ${msg}, Path: ${path}`);
+		if (
+			msg === "Unauthorized" &&
+			window.location.pathname !== "/oauth" &&
+			window.location.pathname !== "/login"
+		) {
+			localStorage.clear();
+			window.location.href = "/login";
+		}
+	}
+	if (networkError) {
+		console.error(`[Network error]: ${networkError}`);
+		// 在这里你可以执行自定义的操作，比如显示网络错误提示
+	}
 });
 
 // 创建一个http link来发送GraphQL请求
 const httpLink = createHttpLink({
-  uri: '/graphql', // 你的GraphQL API的URL
+	uri: "/graphql", // 你的GraphQL API的URL
 
-  headers: {
-    Authorization: `Bearer ` + (localStorage.getItem('token') || ''),
-  },
+	headers: {
+		Authorization: `Bearer ${localStorage.getItem("token") || ""}`,
+	},
 });
 
 // 创建Apollo Client实例
 const client = new ApolloClient({
-  link: errorLink.concat(httpLink), // 将error link和http link组合起来
-  cache: new InMemoryCache(),
+	link: errorLink.concat(httpLink), // 将error link和http link组合起来
+	cache: new InMemoryCache(),
 });
-
 
 // biome-ignore lint/style/noNonNullAssertion: <explanation>
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<GlobalProvider>
 		<BrowserRouter>
-      <ApolloProvider client={client}>
-        <App />
-      </ApolloProvider>
-
+			<ApolloProvider client={client}>
+				<App />
+			</ApolloProvider>
 		</BrowserRouter>
 	</GlobalProvider>,
 );

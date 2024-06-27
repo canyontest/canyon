@@ -6,26 +6,26 @@ export class GitProvider {
 	id: string;
 
 	@Field()
-  url: string;
+	url: string;
 
 	@Field()
-  clientID: string;
+	clientID: string;
 
 	@Field()
-  clientSecret: string;
+	clientSecret: string;
 
 	@Field()
-  type: string;
+	type: string;
 
 	@Field()
-  name: string;
+	name: string;
 
-	@Field(()=>Boolean)
-  disabled: boolean;
+	@Field(() => Boolean)
+	disabled: boolean;
 
 	@Field()
 	createdAt: Date;
 
-  @Field()
-  updatedAt: Date;
+	@Field()
+	updatedAt: Date;
 }

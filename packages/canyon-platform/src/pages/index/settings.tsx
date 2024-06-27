@@ -4,11 +4,14 @@ import { CanyonCardPrimary } from "canyon-ui-old";
 // import copy from 'copy-to-clipboard';
 import { useTranslation } from "react-i18next";
 
+import { useQuery } from "@apollo/client";
 // import languages from '../../../../languages.json';
 // import Faa from './components/BindGitProvider.tsx';
 import { Table } from "antd";
-import {useQuery} from "@apollo/client";
-import {ListGitProviderDocument, ListUserDocument} from "../../helpers/backend/gen/graphql.ts";
+import {
+	ListGitProviderDocument,
+	ListUserDocument,
+} from "../../helpers/backend/gen/graphql.ts";
 const TextArea = Input.TextArea;
 const gridStyle = {
 	width: "100%",
@@ -55,7 +58,7 @@ const columns = [
 
 const Settings = () => {
 	const { t } = useTranslation();
-  const {data} = useQuery(ListGitProviderDocument)
+	const { data } = useQuery(ListGitProviderDocument);
 	return (
 		<>
 			<TextTypography title={t("menus.settings")} icon={<SettingOutlined />} />
@@ -63,7 +66,7 @@ const Settings = () => {
 			<CanyonCardPrimary>
 				<Card title={"系统设置"} bordered={false}>
 					<Card.Grid hoverable={false} style={gridStyle}>
-						<Table dataSource={data?.listGitProvider||[]} columns={columns} />
+						<Table dataSource={data?.listGitProvider || []} columns={columns} />
 					</Card.Grid>
 				</Card>
 			</CanyonCardPrimary>
