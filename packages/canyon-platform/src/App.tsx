@@ -9,10 +9,7 @@ const App = () => {
 	// 	: false;
 	return (
 		<div className={"dark:text-white dark:text-opacity-85"}>
-			<div
-			>
-				{useRoutes(routes)}
-			</div>
+			<div>{useRoutes(routes)}</div>
 		</div>
 	);
 };

@@ -4,7 +4,7 @@ import App from "./App.tsx";
 import "./index.css";
 import "antd/dist/reset.css";
 import { BrowserRouter } from "react-router-dom";
-import {GlobalProvider} from "./components/GlobalContext.tsx";
+import { GlobalProvider } from "./components/GlobalContext.tsx";
 
 // TODO:系统响应主题
 // 多语言响应系统
@@ -16,10 +16,9 @@ import {GlobalProvider} from "./components/GlobalContext.tsx";
 
 // biome-ignore lint/style/noNonNullAssertion: <explanation>
 ReactDOM.createRoot(document.getElementById("root")!).render(
-  <GlobalProvider>
-    <BrowserRouter>
-      <App />
-    </BrowserRouter>
-  </GlobalProvider>
-,
+	<GlobalProvider>
+		<BrowserRouter>
+			<App />
+		</BrowserRouter>
+	</GlobalProvider>,
 );

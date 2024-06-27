@@ -1,84 +1,98 @@
 // src/context/GlobalContext.js
 
-import React, { createContext, useReducer, useEffect } from 'react';
-import { ConfigProvider } from 'antd';
-import zhCN from 'antd/es/locale/zh_CN';
-import enUS from 'antd/es/locale/en_US';
+import { ConfigProvider } from "antd";
+import enUS from "antd/es/locale/en_US";
+import zhCN from "antd/es/locale/zh_CN";
+import React, { createContext, useReducer, useEffect } from "react";
+
+const getSystemTheme = () =>
+	window.matchMedia?.("(prefers-color-scheme: dark)").matches
+		? "dark"
+		: "light";
+const getSystemLocale = () =>
+	navigator.language.startsWith("zh") ? zhCN : enUS;
 
 const initialState = {
-  theme: window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
-  locale: enUS,
+	theme: getSystemTheme(),
+	locale: getSystemLocale(),
 };
 
 const GlobalContext = createContext();
 
 const globalReducer = (state, action) => {
-  switch (action.type) {
-    case 'TOGGLE_THEME':
-      return {
-        ...state,
-        theme: state.theme === 'light' ? 'dark' : 'light',
-      };
-    case 'SET_THEME':
-      return {
-        ...state,
-        theme: action.payload,
-      };
-    case 'SET_LOCALE':
-      return {
-        ...state,
-        locale: action.payload,
-      };
-    default:
-      return state;
-  }
+	switch (action.type) {
+		case "TOGGLE_THEME":
+			return {
+				...state,
+				theme: state.theme === "light" ? "dark" : "light",
+			};
+		case "SET_THEME":
+			return {
+				...state,
+				theme: action.payload,
+			};
+		case "SET_LOCALE":
+			return {
+				...state,
+				locale: action.payload,
+			};
+		default:
+			return state;
+	}
 };
 const { darkAlgorithm } = theme;
 const GlobalProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(globalReducer, initialState);
+	const [state, dispatch] = useReducer(globalReducer, initialState);
 
-  useEffect(() => {
-    const darkModeMediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleSystemThemeChange = (e) => {
+	useEffect(() => {
+		const darkModeMediaQuery = window.matchMedia(
+			"(prefers-color-scheme: dark)",
+		);
+		const handleSystemThemeChange = (e) => {
+			console.log("?????");
 
-      console.log('?????')
+			const newTheme = e.matches ? "dark" : "light";
+			if (newTheme === "dark") {
+				document.documentElement.classList.add("dark");
+				document.body.style.backgroundColor = "black";
+			} else {
+				document.documentElement.classList.remove("dark");
+				document.body.style.backgroundColor = "white";
+			}
 
-      const newTheme = e.matches ? 'dark' : 'light';
-      if (newTheme === "dark") {
-	document.documentElement.classList.add("dark");
-	document.body.style.backgroundColor = "black";
-} else {
-            document.documentElement.classList.remove("dark");
-            document.body.style.backgroundColor = "white";
-      }
+			dispatch({ type: "SET_THEME", payload: newTheme });
+		};
 
+		darkModeMediaQuery.addEventListener("change", handleSystemThemeChange);
 
+		const handleSystemLocaleChange = () => {
+			const newLocale = navigator.language.startsWith("zh") ? zhCN : enUS;
+			console.log(newLocale);
+			dispatch({ type: "SET_LOCALE", payload: newLocale });
+		};
+		window.addEventListener("languagechange", handleSystemLocaleChange);
 
+		return () => {
+			darkModeMediaQuery.removeEventListener("change", handleSystemThemeChange);
+			window.removeEventListener("languagechange", handleSystemLocaleChange);
+		};
+	}, []);
 
-      dispatch({ type: 'SET_THEME', payload: newTheme });
-    };
-
-    darkModeMediaQuery.addEventListener('change', handleSystemThemeChange);
-
-    return () => {
-      darkModeMediaQuery.removeEventListener('change', handleSystemThemeChange);
-    };
-  }, []);
-
-  return (
-    <GlobalContext.Provider value={{ state, dispatch }}>
-      <ConfigProvider
-        theme={{
-          token: {
-            colorPrimary: '#0071c2',
-          },
-          algorithm: state.theme==='dark' ? [darkAlgorithm] : [],
-        }}
-      >
-        {children}
-      </ConfigProvider>
-    </GlobalContext.Provider>
-  );
+	return (
+		<GlobalContext.Provider value={{ state, dispatch }}>
+			<ConfigProvider
+				locale={state.locale}
+				theme={{
+					token: {
+						colorPrimary: "#0071c2",
+					},
+					algorithm: state.theme === "dark" ? [darkAlgorithm] : [],
+				}}
+			>
+				{children}
+			</ConfigProvider>
+		</GlobalContext.Provider>
+	);
 };
 
 export { GlobalContext, GlobalProvider };
