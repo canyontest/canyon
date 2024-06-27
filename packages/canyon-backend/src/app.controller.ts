@@ -9,7 +9,7 @@ export class AppController {
 		private readonly appService: AppService,
 		private readonly prisma: PrismaService,
 	) {
-		console.log(process.env.DATABASE_USER);
+		console.log(process.env.DATABASE_URL);
 	}
 
 	@Get()
