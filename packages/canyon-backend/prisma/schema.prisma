@@ -128,3 +128,12 @@ model Distributedlock {
 
   @@map("distributedlock")
 }
+
+model SystemSetting {
+  id        String   @id @default(cuid())
+  content   String
+  createdAt DateTime @default(now()) @map("created_at") @db.Timestamp(3)
+  updatedAt DateTime @default(now()) @map("updated_at") @db.Timestamp(3)
+
+  @@map("systemsetting")
+}

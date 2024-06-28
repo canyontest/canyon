@@ -12,7 +12,7 @@ export class AppController {
 		console.log(process.env.DATABASE_URL);
 	}
 
-	@Get('/vi/health')
+	@Get("/vi/health")
 	getHello() {
 		const a = "hha";
 		return this.prisma.user.findMany({
