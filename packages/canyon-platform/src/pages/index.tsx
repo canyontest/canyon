@@ -1,16 +1,21 @@
 import {
-	ArrowRightOutlined,
-	CreditCardOutlined,
-	FolderOutlined,
-	LineChartOutlined,
-	LogoutOutlined,
-	SettingOutlined,
+  ArrowRightOutlined,
+  // CreditCardOutlined,
+  FolderOutlined,
+  // LineChartOutlined,
+  LogoutOutlined, ReadOutlined,
+  SettingOutlined,
 } from "@ant-design/icons";
 
 import { CanyonLayoutBase } from "canyon-ui-old";
 import { useTranslation } from "react-i18next";
+import GlobalTshi from "../components/GlobalTshi.tsx";
+import {GlobalContext} from "../components/GlobalContext.tsx";
 
 function Index() {
+  const { state } = useContext(GlobalContext);
+  const { theme } = state;
+  console.log(theme,'theme')
 	const { t } = useTranslation();
 	useEffect(() => {
 		if (localStorage.getItem("token") === null) {
@@ -32,14 +37,10 @@ function Index() {
 	useEffect(() => {
 		setMenuSelectedKey(loc.pathname.replace("/", ""));
 	}, [loc.pathname]);
-	const meData = {
-		me: {
-			username: "tzhangm123",
-		},
-	};
 	const [menuSelectedKey, setMenuSelectedKey] = useState<string>("projects");
 	return (
 		<>
+      <GlobalTshi/>
 			<CanyonLayoutBase
 				breadcrumb={
 					<div>
@@ -63,25 +64,30 @@ function Index() {
 				]}
 				MeData={{
 					me: {
-						username: "tzhangm123",
+						nickname: "tzhangm123tzhangmtzhangm",
+            email:'tzhangmtzhangmtzhangm@trip.com'
 					},
 				}}
 				onClickGlobalSearch={() => {}}
 				title={"Canyon"}
 				logo={
-					<div>{/*<img src='/logo.svg' alt='' className={'w-[28px]'} />*/}</div>
-				}
-				mainTitleRightNode={
-					<div>
-						<Tooltip
-							title={
+          <img src={
+            `/${theme}-logo.svg?a=1`
+          } alt='' className={'w-[28px]'}/>
+        }
+        mainTitleRightNode={
+          <div>
+            <Tooltip
+              title={
 								<div>
 									<span>{t("menus.docs")}</span>
 									<ArrowRightOutlined />
 								</div>
 							}
 						>
-							hi
+              <a href="https://ant.design/" target={'_blank'} rel="noreferrer" style={{color:'unset'}}>
+                <ReadOutlined />
+              </a>
 						</Tooltip>
 					</div>
 				}

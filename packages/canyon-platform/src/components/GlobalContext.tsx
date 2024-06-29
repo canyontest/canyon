@@ -45,25 +45,37 @@ const GlobalProvider = ({ children }) => {
 	const [state, dispatch] = useReducer(globalReducer, initialState);
 
 	useEffect(() => {
+
+    // console.log(initialState)
+
+    // if (initialState.locale ==='l'){
+
+    // }
+
+
 		const darkModeMediaQuery = window.matchMedia(
 			"(prefers-color-scheme: dark)",
 		);
+
 		const handleSystemThemeChange = (e) => {
 			console.log("?????");
 
 			const newTheme = e.matches ? "dark" : "light";
 			if (newTheme === "dark") {
 				document.documentElement.classList.add("dark");
-				document.body.style.backgroundColor = "black";
+				// document.body.style.backgroundColor = "black";
 			} else {
 				document.documentElement.classList.remove("dark");
-				document.body.style.backgroundColor = "white";
+				// document.body.style.backgroundColor = "white";
 			}
 
 			dispatch({ type: "SET_THEME", payload: newTheme });
 		};
 
-		darkModeMediaQuery.addEventListener("change", handleSystemThemeChange);
+    handleSystemThemeChange({matches: initialState.theme === "dark"})
+
+
+    darkModeMediaQuery.addEventListener("change", handleSystemThemeChange);
 
 		const handleSystemLocaleChange = () => {
 			const newLocale = navigator.language.startsWith("zh") ? zhCN : enUS;

@@ -1,3 +1,57 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'IBMPlexMono';
+  src: url('./assets/font/IBMPlexMono-Regular.woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/**{*/
+/*  font-family: 'Fira Code', monospace;*/
+/*}*/
+
+
+.ant-menu-light.ant-menu-root.ant-menu-vertical{
+  border-inline-end:none !important;
+}
+
+.anticon{
+  /*zoom: 1.3;*/
+  /*font-weight: bolder !important;*/
+  /*font-size: 18px !important;*/
+  /*font-weight: bolder !important;*/
+}
+
+.ant-menu-item{
+  /*display: flex !important;*/
+  /*flex-direction: column;*/
+  /*align-items: center;*/
+}
+
+a{
+  color: #0071c2;
+}
+a:hover{
+  /*color: #0071c2;*/
+  opacity: .8;
+  text-decoration:underline;
+}
+
+
+
+
+.fullscreen-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}

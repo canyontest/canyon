@@ -1,78 +1,90 @@
-import { SettingOutlined } from "@ant-design/icons";
-import { TextTypography } from "canyon-ui";
-import { CanyonCardPrimary } from "canyon-ui-old";
+import { SettingOutlined } from '@ant-design/icons';
+import { TextTypography } from 'canyon-ui';
+import { CanyonCardPrimary } from 'canyon-ui-old';
 // import copy from 'copy-to-clipboard';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
-import { useQuery } from "@apollo/client";
-// import languages from '../../../../languages.json';
+import languages from '../../../languages.json';
 // import Faa from './components/BindGitProvider.tsx';
-import { Table } from "antd";
-import {
-	ListGitProviderDocument,
-	ListUserDocument,
-} from "../../helpers/backend/gen/graphql.ts";
 const TextArea = Input.TextArea;
-const gridStyle = {
-	width: "100%",
+const gridStyle: any = {
+  width: '100%',
 };
-
-const dataSource = [
-	{
-		key: "1",
-		name: "http://git.com",
-		clientID: "clientID",
-		clientSecret: "clientSecret",
-		providerType: "Provider类型",
-		privateToken: "PRIVATE_TOKEN",
-	},
-];
-
-const columns = [
-	{
-		title: "路径",
-		dataIndex: "name",
-		key: "name",
-	},
-	{
-		title: "CLIENT_ID",
-		dataIndex: "clientID",
-		key: "clientID",
-	},
-	{
-		title: "CLIENT_SECRET",
-		dataIndex: "clientSecret",
-		key: "clientSecret",
-	},
-	{
-		title: "Provider类型",
-		dataIndex: "providerType",
-		key: "providerType",
-	},
-	{
-		title: "PRIVATE_TOKEN(有的话优先)",
-		dataIndex: "privateToken",
-		key: "privateToken",
-	},
-];
-
 const Settings = () => {
-	const { t } = useTranslation();
-	const { data } = useQuery(ListGitProviderDocument);
-	return (
-		<>
-			<TextTypography title={t("menus.settings")} icon={<SettingOutlined />} />
+  const { t } = useTranslation();
+  return (
+    <>
+      <TextTypography title={t('menus.settings')} icon={<SettingOutlined />} />
+      <CanyonCardPrimary>
+        <Card title={t('settings.preference')} bordered={false}>
+          <Card.Grid hoverable={false} style={gridStyle}>
+            <div className={'flex'}>
+              <div className={'w-1/2'}>{t('common.language')}</div>
 
-			<CanyonCardPrimary>
-				<Card title={"系统设置"} bordered={false}>
-					<Card.Grid hoverable={false} style={gridStyle}>
-						<Table dataSource={data?.listGitProvider || []} columns={columns} />
-					</Card.Grid>
-				</Card>
-			</CanyonCardPrimary>
-			<div className={"h-5"} />
-		</>
-	);
+              <div className={'w-1/2'}>
+                <Select
+                  value={localStorage.getItem('language') || 'cn'}
+                  onChange={(value) => {
+                    localStorage.setItem('language', value);
+                    window.location.reload();
+                  }}
+                  options={languages.map((item) => {
+                    return {
+                      label: item.name,
+                      value: item.code,
+                    };
+                  })}
+                  className={'w-[100%]'}
+                />
+              </div>
+            </div>
+          </Card.Grid>
+
+          <Card.Grid hoverable={false} style={gridStyle}>
+            <div className={'flex'}>
+              <div className={'w-1/2'}>{t('common.theme')}</div>
+
+              <div className={'w-1/2'}>
+                <Select
+                  value={localStorage.getItem('theme') || 'light'}
+                  onChange={(value) => {
+                    localStorage.setItem('theme', value);
+                    window.location.reload();
+                  }}
+                  options={[
+                    {
+                      label: t('common.light'),
+                      value: 'light',
+                    },
+                    {
+                      label: t('common.dark'),
+                      value: 'dark',
+                    },
+                    {
+                      label: t('common.system'),
+                      value: 'system',
+                    },
+                  ]}
+                  className={'w-[100%]'}
+                />
+              </div>
+            </div>
+          </Card.Grid>
+        </Card>
+      </CanyonCardPrimary>
+      <div className={'h-5'}></div>
+      <CanyonCardPrimary>
+        <Card title={t('settings.user_auth_tokens')} bordered={false}>
+          <TextArea
+            value={localStorage.getItem('token') || ''}
+            readOnly
+          />
+        </Card>
+      </CanyonCardPrimary>
+      {/*<div className={'h-5'}></div>*/}
+      {/*{localStorage.getItem('debug') === 'true' && <Faa />}*/}
+    </>
+  );
 };
 
 export default Settings;

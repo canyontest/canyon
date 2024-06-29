@@ -108,6 +108,7 @@
     "theme": "Theme",
     "light": "Light",
     "dark": "Dark",
+    "system": "System",
     "created_at": "Created At",
     "total_items": "Total {{total}} Items",
     "edit": "Edit",
