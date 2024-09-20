@@ -1,0 +1,23 @@
+{
+  "name": "canyon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": "true",
+  "module": "index.ts",
+  "type": "module",
+  "workspaces": [
+    "packages/canyon-platform",
+    "packages/canyon-backend"
+  ],
+  "scripts": {
+    "build": "bun --filter '*' build",
+    "check": "bunx biome check --write packages"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@biomejs/biome": "1.9.2"
+  }
+}
