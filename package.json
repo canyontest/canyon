@@ -12,7 +12,8 @@
   ],
   "scripts": {
     "build": "bun --filter '*' build",
-    "check": "bunx biome check --write packages"
+    "check": "bunx biome check --write packages",
+    "preinstall": "node ./scripts/check.js"
   },
   "keywords": [],
   "author": "",
