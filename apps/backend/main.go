@@ -21,6 +21,11 @@ func main() {
 	api := r.Group("/api/v1")
 	{
 		api.GET("/ping", handlers.Ping)
+		
+		// 用户相关路由
+		api.GET("/users", handlers.GetUsers)
+		api.GET("/users/:id", handlers.GetUser)
+		api.POST("/users", handlers.CreateUser)
 	}
 
 	// 启动服务器，默认端口 8080
