@@ -4,13 +4,15 @@
     "dev": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "go run main.go"
+        "command": "go run main.go",
+        "cwd": "apps/backend"
       }
     },
     "build": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "go build -o dist/backend ./..."
+        "command": "go build -o dist/backend .",
+        "cwd": "apps/backend"
       }
     }
   }
