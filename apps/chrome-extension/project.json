@@ -1,0 +1,17 @@
+{
+  "name": "canyon-extension",
+  "targets": {
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm --filter canyon-extension dev"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm --filter canyon-extension build"
+      }
+    }
+  }
+}

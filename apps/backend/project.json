@@ -1,0 +1,17 @@
+{
+  "name": "backend",
+  "targets": {
+    "dev": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "go run main.go"
+      }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "go build -o dist/backend ./..."
+      }
+    }
+  }
+}
